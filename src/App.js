@@ -33,7 +33,7 @@ const App = ({ signOut }) => {
     await Promise.all(
       reviewsFromAPI.map(async (bookReview) => {
         if (bookReview.image) {
-          const url = await Storage.get(bookReview.name);
+          const url = await Storage.get(bookReview.title);
           bookReview.image = url;
         }
         return bookReview;
@@ -47,6 +47,7 @@ const App = ({ signOut }) => {
     event.preventDefault();
     const form = new FormData(event.target);
     const image = form.get("image");
+    console.log("image" + image.name);
     const data = {
       title: form.get("title"),
       reviewNotes: form.get("reviewNotes"),
@@ -55,7 +56,7 @@ const App = ({ signOut }) => {
     };
 
     if (!!data.image) {
-      await Storage.put(data.name, image);
+      await Storage.put(data.title, image);
     }
     await API.graphql({
       query: createReviewMutation,
