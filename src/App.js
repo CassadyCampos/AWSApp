@@ -48,9 +48,10 @@ const App = ({ signOut }) => {
     const form = new FormData(event.target);
     const image = form.get("image");
     const data = {
-      name: form.get("name"),
-      description: form.get("description"),
+      title: form.get("title"),
+      reviewNotes: form.get("reviewNotes"),
       image: image.name,
+      reviewScore: 5,
     };
 
     if (!!data.image) {
@@ -80,7 +81,7 @@ const App = ({ signOut }) => {
       <View as="form" margin="3rem 0" onSubmit={createReview}>
         <Flex direction="row" justifyContent="center">
           <TextField
-            name="name"
+            name="title"
             placeholder="Book Title"
             label="Book Title"
             labelHidden
@@ -88,7 +89,7 @@ const App = ({ signOut }) => {
             required
           />
           <TextField
-            name="description"
+            name="reviewNotes"
             placeholder="Review Notes"
             label="Review Notes"
             labelHidden
@@ -116,7 +117,7 @@ const App = ({ signOut }) => {
             alignItems="center"
           >
             <Text as="strong" fontWeight={700}>
-              {bookReview.name}
+              {bookReview.title}
             </Text>
             <Text as="span">{bookReview.reviewNotes}</Text>
             {bookReview.image && (
