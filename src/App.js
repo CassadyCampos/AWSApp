@@ -9,6 +9,7 @@ import {
   Image,
   Text,
   TextField,
+  TextAreaField,
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
@@ -79,7 +80,7 @@ const App = ({ signOut }) => {
   return (
     <View className="App">
       <Heading level={1}>My Reading List</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createReview}>
+      <View as="form" margin="3rem 1rem" onSubmit={createReview}>
         <Flex direction="row" justifyContent="center">
           <TextField
             name="title"
@@ -89,20 +90,23 @@ const App = ({ signOut }) => {
             variation="quiet"
             required
           />
-          <TextField
+          <TextAreaField
             name="reviewNotes"
-            placeholder="Review Notes"
+            autoComplete="off"
+            direction="column"
+            descriptiveText="Review Notes"
             label="Review Notes"
             labelHidden
             variation="quiet"
             required
           />
           <View
-          name="image"
-          as="input"
-          type="file"
-          style={{ alignSelf: "end", height: "40px"
-          }}/>
+            name="image"
+            as="input"
+            type="file"
+            style={{
+              alignSelf: "end", height: "40px"
+            }} />
           <Button type="submit" variation="primary">
             Create Book Review!
           </Button>
@@ -110,29 +114,35 @@ const App = ({ signOut }) => {
       </View>
       <Heading level={2}>Library</Heading>
       <View margin="3rem 0">
-        {bookReviews.map((bookReview) => (
-          <Flex
-            key={bookReview.id || bookReview.title}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {bookReview.title}
-            </Text>
-            <Text as="span">{bookReview.reviewNotes}</Text>
-            {bookReview.image && (
-              <Image
-              src={bookReview.image}
-              alt={`visual aid for ${bookReviews.title}`}
-              style={{ width: 400 }}
-              />
-            )}
-            <Button variation="link" onClick={() => deleteReview(bookReview)}>
-              Delete
-            </Button>
-          </Flex>
-        ))}
+        <Flex
+        justifyContent="center"
+        alignItems="center"
+        >
+          {bookReviews.map((bookReview) => (
+            <Flex
+              key={bookReview.id || bookReview.title}
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {bookReview.image && (
+                <Image
+                  src={bookReview.image}
+                  alt={`visual aid for ${bookReviews.title}`}
+                  style={{ width: 400 }}
+                />
+              )}
+              <Text as="strong" fontWeight={700}>
+                {bookReview.title}
+              </Text>
+              <Text as="span">{bookReview.reviewNotes}</Text>
+
+              <Button variation="link" onClick={() => deleteReview(bookReview)}>
+                Delete
+              </Button>
+            </Flex>
+          ))}
+        </Flex>
       </View>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
