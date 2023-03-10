@@ -14,8 +14,8 @@ import {
 } from "@aws-amplify/ui-react";
 import { listNotes } from "./graphql/queries";
 import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
+  createReview as createReviewMutation,
+  deleteReview as deleteReviewMutation,
 } from "./graphql/mutations";
 
 const App = ({ signOut }) => {
@@ -43,7 +43,7 @@ const App = ({ signOut }) => {
     setNotes(notesFromAPI);
   }
 
-  async function createNote(event) {
+  async function createReview(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     const image = form.get("image");
@@ -57,40 +57,40 @@ const App = ({ signOut }) => {
       await Storage.put(data.name, image);
     }
     await API.graphql({
-      query: createNoteMutation,
+      query: createReviewMutation,
       variables: { input: data },
     });
     fetchNotes();
     event.target.reset();
   }
 
-  async function deleteNote({ id, name }) {
+  async function deleteReview({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
     await Storage.remove(name);
     await API.graphql({
-      query: deleteNoteMutation,
+      query: deleteReviewMutation,
       variables: { input: { id } },
     });
   }
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
+      <Heading level={1}>My Reading List</Heading>
+      <View as="form" margin="3rem 0" onSubmit={createReview}>
         <Flex direction="row" justifyContent="center">
           <TextField
             name="name"
-            placeholder="Note Name"
-            label="Note Name"
+            placeholder="Book Title"
+            label="Book Title"
             labelHidden
             variation="quiet"
             required
           />
           <TextField
             name="description"
-            placeholder="Note Description"
-            label="Note Description"
+            placeholder="Review Notes"
+            label="Review Notes"
             labelHidden
             variation="quiet"
             required
@@ -102,11 +102,11 @@ const App = ({ signOut }) => {
           style={{ alignSelf: "end", height: "40px"
           }}/>
           <Button type="submit" variation="primary">
-            Create Note
+            Create Book Review!
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Notes</Heading>
+      <Heading level={2}>Library</Heading>
       <View margin="3rem 0">
         {notes.map((note) => (
           <Flex
@@ -126,8 +126,8 @@ const App = ({ signOut }) => {
               style={{ width: 400 }}
               />
             )}
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
+            <Button variation="link" onClick={() => deleteReview(note)}>
+              Delete
             </Button>
           </Flex>
         ))}
