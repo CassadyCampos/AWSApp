@@ -12,35 +12,35 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
+import { listBookReviews } from "./graphql/queries";
 import {
-  createReview as createReviewMutation,
-  deleteReview as deleteReviewMutation,
+  createBookReview as createReviewMutation,
+  deleteBookReview as deleteReviewMutation,
 } from "./graphql/mutations";
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+  const [bookReviews, setBookReviews] = useState([]);
 
   useEffect(() => {
-    fetchNotes();
+    fetchBookReviews();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
+  async function fetchBookReviews() {
+    const apiData = await API.graphql({ query: listBookReviews });
+    const reviewsFromAPI = apiData.data.listBookReviews.items;
 
     // Async grab all the image url's from Storage
     await Promise.all(
-      notesFromAPI.map(async (note) => {
-        if (note.image) {
-          const url = await Storage.get(note.name);
-          note.image = url;
+      reviewsFromAPI.map(async (bookReview) => {
+        if (bookReview.image) {
+          const url = await Storage.get(bookReview.name);
+          bookReview.image = url;
         }
-        return note;
+        return bookReview;
       })
     )
 
-    setNotes(notesFromAPI);
+    setBookReviews(reviewsFromAPI);
   }
 
   async function createReview(event) {
@@ -60,13 +60,13 @@ const App = ({ signOut }) => {
       query: createReviewMutation,
       variables: { input: data },
     });
-    fetchNotes();
+    fetchBookReviews();
     event.target.reset();
   }
 
   async function deleteReview({ id, name }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
+    const newBookReviews = bookReviews.filter((bookReview) => bookReview.id !== id);
+    setBookReviews(newBookReviews);
     await Storage.remove(name);
     await API.graphql({
       query: deleteReviewMutation,
@@ -108,25 +108,25 @@ const App = ({ signOut }) => {
       </View>
       <Heading level={2}>Library</Heading>
       <View margin="3rem 0">
-        {notes.map((note) => (
+        {bookReviews.map((bookReview) => (
           <Flex
-            key={note.id || note.name}
+            key={bookReview.id || bookReview.title}
             direction="row"
             justifyContent="center"
             alignItems="center"
           >
             <Text as="strong" fontWeight={700}>
-              {note.name}
+              {bookReview.name}
             </Text>
-            <Text as="span">{note.description}</Text>
-            {note.image && (
+            <Text as="span">{bookReview.reviewNotes}</Text>
+            {bookReview.image && (
               <Image
-              src={note.image}
-              alt={`visual aid for ${notes.name}`}
+              src={bookReview.image}
+              alt={`visual aid for ${bookReviews.title}`}
               style={{ width: 400 }}
               />
             )}
-            <Button variation="link" onClick={() => deleteReview(note)}>
+            <Button variation="link" onClick={() => deleteReview(bookReview)}>
               Delete
             </Button>
           </Flex>

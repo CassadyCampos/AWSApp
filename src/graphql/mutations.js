@@ -46,6 +46,54 @@ export const deleteNote = /* GraphQL */ `
     }
   }
 `;
+export const createBookReview = /* GraphQL */ `
+  mutation CreateBookReview(
+    $input: CreateBookReviewInput!
+    $condition: ModelBookReviewConditionInput
+  ) {
+    createBookReview(input: $input, condition: $condition) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateBookReview = /* GraphQL */ `
+  mutation UpdateBookReview(
+    $input: UpdateBookReviewInput!
+    $condition: ModelBookReviewConditionInput
+  ) {
+    updateBookReview(input: $input, condition: $condition) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteBookReview = /* GraphQL */ `
+  mutation DeleteBookReview(
+    $input: DeleteBookReviewInput!
+    $condition: ModelBookReviewConditionInput
+  ) {
+    deleteBookReview(input: $input, condition: $condition) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!

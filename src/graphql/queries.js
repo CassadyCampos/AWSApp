@@ -32,6 +32,39 @@ export const listNotes = /* GraphQL */ `
     }
   }
 `;
+export const getBookReview = /* GraphQL */ `
+  query GetBookReview($id: ID!) {
+    getBookReview(id: $id) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listBookReviews = /* GraphQL */ `
+  query ListBookReviews(
+    $filter: ModelBookReviewFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookReviews(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        reviewNotes
+        image
+        reviewScore
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {

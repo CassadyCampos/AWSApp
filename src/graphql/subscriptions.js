@@ -37,6 +37,51 @@ export const onDeleteNote = /* GraphQL */ `
     }
   }
 `;
+export const onCreateBookReview = /* GraphQL */ `
+  subscription OnCreateBookReview(
+    $filter: ModelSubscriptionBookReviewFilterInput
+  ) {
+    onCreateBookReview(filter: $filter) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateBookReview = /* GraphQL */ `
+  subscription OnUpdateBookReview(
+    $filter: ModelSubscriptionBookReviewFilterInput
+  ) {
+    onUpdateBookReview(filter: $filter) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteBookReview = /* GraphQL */ `
+  subscription OnDeleteBookReview(
+    $filter: ModelSubscriptionBookReviewFilterInput
+  ) {
+    onDeleteBookReview(filter: $filter) {
+      id
+      title
+      reviewNotes
+      image
+      reviewScore
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo($filter: ModelSubscriptionTodoFilterInput) {
     onCreateTodo(filter: $filter) {
